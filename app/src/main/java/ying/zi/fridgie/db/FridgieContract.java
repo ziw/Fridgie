@@ -1,6 +1,7 @@
 package ying.zi.fridgie.db;
 
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,37 +18,59 @@ public class FridgieContract {
     // the content provider.
 //    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
+    public static final String DB_NAME = "Fridgie_DB";
 
     /**
      * Defines the fridgie_item table. Stores item definition
      */
-    public static final class ItemContract {
+    public static final class ItemContract implements BaseColumns {
 
         public static final String TABLE_NAME = "fridgie_item";
+
         public static final String COL_ITEM_NAME = "item_name";
         //public static final String COL_ITEM_TYPE = "item_type";
         public static final String COL_ITEM_PHOTO = "item_photo";
         public static final String COL_ITEM_EXP = "item_exp";
+        public static final String COL_ITEM_LAST_ADDED = "item_last_added";
 
+        private static final String TYPE_ID = " INTEGER PRIMARY KEY ";
         private static final String TYPE_ITEM_NAME = " TEXT NOT NULL UNIQUE ";
         //private static final String TYPE_ITEM_TYPE = " TEXT NOT NULL ";
         private static final String TYPE_ITEM_PHOTO = " TEXT ";
         private static final String TYPE_ITEM_EXP = " INTEGER ";
+        private static final String TYPE_ITEM_LAST_ADDED = " REAL ";
 
-        public static Map<String, String> getCreationMap(){
+        private static Map<String, String> getCreationMap(){
             Map<String,String> m = new HashMap<>();
+            m.put(ItemContract._ID, TYPE_ID);
             m.put(COL_ITEM_NAME, TYPE_ITEM_NAME);
             m.put(COL_ITEM_EXP, TYPE_ITEM_EXP);
             m.put(COL_ITEM_PHOTO, TYPE_ITEM_PHOTO);
+            m.put(COL_ITEM_LAST_ADDED, TYPE_ITEM_LAST_ADDED);
             return m;
+        }
+
+        public static String createItemTable(){
+            return constructCreatSQL(getCreationMap(),TABLE_NAME);
         }
 
     }
 
-    public static class InventoryContract {
+    public static class InventoryContract implements BaseColumns {
         public static final String TABLE_NAME = "fridgie_inventory";
 
 
+    }
+
+    private static String constructCreatSQL(Map<String,String> m, String tableName){
+        StringBuilder sb = new StringBuilder("CREATE TABLE ");
+        sb.append(tableName + " (");
+        for(Map.Entry<String,String> e : m.entrySet()){
+            sb.append(e.getKey() +  e.getValue() + ", " );
+        }
+        sb.deleteCharAt(sb.length()-1);//remove last ','
+        sb.append(" );");
+        return sb.toString();
     }
 
 
