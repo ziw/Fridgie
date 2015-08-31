@@ -20,6 +20,7 @@ public class FridgieContract {
 //    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String DB_NAME = "Fridgie_DB";
+    public static final int DB_VERSION = 1;
 
     /**
      * Defines the fridgie_item table. Stores item definition
