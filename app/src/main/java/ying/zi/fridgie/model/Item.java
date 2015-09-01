@@ -1,6 +1,10 @@
 package ying.zi.fridgie.model;
 
+import android.content.ContentValues;
+
 import java.util.Date;
+
+import ying.zi.fridgie.db.FridgieContract;
 
 public class Item {
 
@@ -57,5 +61,15 @@ public class Item {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public ContentValues toContentValues(){
+        ContentValues c = new ContentValues();
+        c.put(FridgieContract.ItemContract.COL_ITEM_NAME, name);
+        c.put(FridgieContract.ItemContract.COL_ITEM_PHOTO, photo);
+        c.put(FridgieContract.ItemContract.COL_ITEM_EXP, expirationDays);
+        c.put(FridgieContract.ItemContract.COL_ITEM_LAST_ADDED, lastAdded == null ? 0 : lastAdded.getTime());
+        c.put(FridgieContract.ItemContract.COL_ITEM_COUNT_ADDED, count);
+        return c;
     }
 }

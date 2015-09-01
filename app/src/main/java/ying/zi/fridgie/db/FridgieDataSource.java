@@ -1,7 +1,10 @@
 package ying.zi.fridgie.db;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import ying.zi.fridgie.model.Item;
 import ying.zi.fridgie.model.Inventory;
@@ -18,19 +21,28 @@ public class FridgieDataSource {
 
     public FridgieDataSource(Context context){
         helper = new FridgieDBHelper(context);
-        db = helper.getWritableDatabase();
     };
 
-    public void close(){
-
-        if(helper != null){
-            helper.close();
+    public boolean insertItem(Item item){
+        if(item == null){
+            Log.e(LOG_TAG, "insertItem called with item null");
+            throw new IllegalArgumentException("Cannot add null item.");
+        }
+        if(item.getName() == null){
+            Log.e(LOG_TAG,"insertItem name null");
+            throw new IllegalArgumentException("Item has name null.");
         }
 
-    }
-
-    public boolean insertItem(Item item){
-
+        ContentValues c = item.toContentValues();
+        try{
+            db = helper.getWritableDatabase();
+            db.insertOrThrow(FridgieContract.ItemContract.TABLE_NAME,null,c);
+        }
+        finally {
+            if (db != null){
+                db.close();
+            }
+        }
         return true;
     }
 
@@ -39,6 +51,10 @@ public class FridgieDataSource {
         return null;
     }
 
+    Cursor execRawQuery(String sql, String[] args){
+        db = helper.getWritableDatabase();
+        return db.rawQuery(sql, args);
+    }
 
 
 }

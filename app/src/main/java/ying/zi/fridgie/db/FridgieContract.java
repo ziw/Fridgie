@@ -36,7 +36,7 @@ public class FridgieContract {
         public static final String COL_ITEM_LAST_ADDED = "item_last_added";
         public static final String COL_ITEM_COUNT_ADDED = "item_count_added";
 
-        private static final String TYPE_ID = " INTEGER PRIMARY KEY ";
+        private static final String TYPE_ID = " INTEGER PRIMARY KEY AUTOINCREMENT ";
         private static final String TYPE_ITEM_NAME = " TEXT NOT NULL UNIQUE ";
         //private static final String TYPE_ITEM_TYPE = " TEXT NOT NULL ";
         private static final String TYPE_ITEM_PHOTO = " TEXT ";
