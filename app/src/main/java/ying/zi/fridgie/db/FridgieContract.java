@@ -31,16 +31,16 @@ public class FridgieContract {
 
         public static final String COL_ITEM_NAME = "item_name";
         //public static final String COL_ITEM_TYPE = "item_type";
-        public static final String COL_ITEM_PHOTO = "item_photo";
-        public static final String COL_ITEM_EXP = "item_exp";
-        public static final String COL_ITEM_LAST_ADDED = "item_last_added";
-        public static final String COL_ITEM_COUNT_ADDED = "item_count_added";
+        public static final String COL_ITEM_PHOTO = "photo";
+        public static final String COL_ITEM_EXP_DAYS = "exp_days";
+        public static final String COL_ITEM_LAST_ADDED = "last_added";
+        public static final String COL_ITEM_COUNT_ADDED = "count";
 
         private static final String TYPE_ID = " INTEGER PRIMARY KEY AUTOINCREMENT ";
         private static final String TYPE_ITEM_NAME = " TEXT NOT NULL UNIQUE ";
         //private static final String TYPE_ITEM_TYPE = " TEXT NOT NULL ";
         private static final String TYPE_ITEM_PHOTO = " TEXT ";
-        private static final String TYPE_ITEM_EXP = " INTEGER ";
+        private static final String TYPE_ITEM_EXP_DAYS = " INTEGER ";
         private static final String TYPE_ITEM_LAST_ADDED = " REAL ";
         private static final String TYPE_ITEM_COUNT_ADDED = " INTEGER ";
 
@@ -48,7 +48,7 @@ public class FridgieContract {
             Map<String,String> m = new LinkedHashMap<>();
             m.put(ItemContract._ID, TYPE_ID);
             m.put(COL_ITEM_NAME, TYPE_ITEM_NAME);
-            m.put(COL_ITEM_EXP, TYPE_ITEM_EXP);
+            m.put(COL_ITEM_EXP_DAYS, TYPE_ITEM_EXP_DAYS);
             m.put(COL_ITEM_PHOTO, TYPE_ITEM_PHOTO);
             m.put(COL_ITEM_LAST_ADDED, TYPE_ITEM_LAST_ADDED);
             m.put(COL_ITEM_COUNT_ADDED, TYPE_ITEM_COUNT_ADDED);
@@ -65,12 +65,31 @@ public class FridgieContract {
 
         public static final String TABLE_NAME = "fridgie_inventory";
 
-        public static final String COL_ITEM_EXP = "item_exp";
         public static final String COL_ITEM_NAME = "item_name";
+        //public static final String COL_EXP_DAYS = "exp_days";
+        public static final String COL_EXP_DATE ="exp_date";
+        public static final String COL_STOCK_DATE = "stock_date";
+        public static final String COL_COUNT = "count";
 
+        private static final String TYPE_ID = " INTEGER PRIMARY KEY AUTOINCREMENT ";
+        private static final String TYPE_ITEM_NAME = " TEXT NOT NULL ";
+        //private static final String TYPE_EXP_DAYS = "";
+        private static final String TYPE_EXP_DATE = " REAL ";
+        private static final String TYPE_STOCK_DATE = " REAL ";
+        private static final String TYPE_COUNT = " INTEGER ";
+
+        private static final String FOREIGN_KEY_COL = " FOREIGN KEY(" + COL_ITEM_NAME + ") ";
+        private static final String FOREIGN_KEY_REF = " REFERENCES " + ItemContract.TABLE_NAME + "("
+                                                        + ItemContract.COL_ITEM_NAME + ")";
 
         private static Map<String, String> getCreationMap(){
             Map<String,String> m = new HashMap<>();
+            m.put(_ID, TYPE_ID);
+            m.put(COL_ITEM_NAME, TYPE_ITEM_NAME);
+            m.put(COL_EXP_DATE, TYPE_EXP_DATE);
+            m.put(COL_STOCK_DATE, TYPE_STOCK_DATE);
+            m.put(COL_COUNT, TYPE_COUNT);
+            m.put(FOREIGN_KEY_COL, FOREIGN_KEY_REF);
             return m;
         }
 

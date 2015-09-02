@@ -1,6 +1,7 @@
 package ying.zi.fridgie.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import java.util.Date;
 
@@ -67,9 +68,40 @@ public class Item {
         ContentValues c = new ContentValues();
         c.put(FridgieContract.ItemContract.COL_ITEM_NAME, name);
         c.put(FridgieContract.ItemContract.COL_ITEM_PHOTO, photo);
-        c.put(FridgieContract.ItemContract.COL_ITEM_EXP, expirationDays);
+        c.put(FridgieContract.ItemContract.COL_ITEM_EXP_DAYS, expirationDays);
         c.put(FridgieContract.ItemContract.COL_ITEM_LAST_ADDED, lastAdded == null ? 0 : lastAdded.getTime());
         c.put(FridgieContract.ItemContract.COL_ITEM_COUNT_ADDED, count);
         return c;
+    }
+
+    public Item (Cursor c){
+        if(c == null){
+            throw new IllegalArgumentException("Cannot create Item from null curose");
+        }
+        setName(c.getString(c.getColumnIndex(FridgieContract.ItemContract.COL_ITEM_NAME)));
+        setId(c.getInt(c.getColumnIndex(FridgieContract.ItemContract._ID)));
+        setPhoto(c.getString(c.getColumnIndex(FridgieContract.ItemContract.COL_ITEM_PHOTO)));
+        setExpirationDays(c.getInt(c.getColumnIndex(FridgieContract.ItemContract.COL_ITEM_EXP_DAYS)));
+        setLastAdded(new Date(c.getLong(c.getColumnIndex(FridgieContract.ItemContract.COL_ITEM_LAST_ADDED))));
+        setCount(c.getInt(c.getColumnIndex(FridgieContract.ItemContract.COL_ITEM_COUNT_ADDED)));
+    }
+
+    public Item (){
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        return name.equals(item.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }
