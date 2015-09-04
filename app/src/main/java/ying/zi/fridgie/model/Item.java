@@ -66,11 +66,11 @@ public class Item {
 
     public ContentValues toContentValues(){
         ContentValues c = new ContentValues();
-        c.put(FridgieContract.ItemContract.COL_ITEM_NAME, name);
-        c.put(FridgieContract.ItemContract.COL_ITEM_PHOTO, photo);
-        c.put(FridgieContract.ItemContract.COL_ITEM_EXP_DAYS, expirationDays);
-        c.put(FridgieContract.ItemContract.COL_ITEM_LAST_ADDED, lastAdded == null ? 0 : lastAdded.getTime());
-        c.put(FridgieContract.ItemContract.COL_ITEM_COUNT_ADDED, count);
+        c.put(FridgieContract.ItemContract.COL_ITEM_NAME, getName());
+        c.put(FridgieContract.ItemContract.COL_ITEM_PHOTO, getPhoto());
+        c.put(FridgieContract.ItemContract.COL_ITEM_EXP_DAYS, getExpirationDays());
+        c.put(FridgieContract.ItemContract.COL_ITEM_LAST_ADDED, getLastAdded() == null ? 0 : getLastAdded().getTime());
+        c.put(FridgieContract.ItemContract.COL_ITEM_COUNT_ADDED, getCount());
         return c;
     }
 

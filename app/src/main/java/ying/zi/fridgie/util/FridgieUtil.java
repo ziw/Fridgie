@@ -1,8 +1,10 @@
 package ying.zi.fridgie.util;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,6 +22,11 @@ public class FridgieUtil {
         toast.show();
     }
 
-
+    public static void closeDB(SQLiteDatabase db){
+        try{
+            db.close();
+        }
+        catch (Exception e){}
+    }
 
 }

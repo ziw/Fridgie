@@ -14,7 +14,7 @@ class FridgieDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(FridgieContract.ItemContract.createItemTable());
-        //db.execSQL(FridgieContract.InventoryContract.createInventoryTable());
+        db.execSQL(FridgieContract.InventoryContract.createInventoryTable());
     }
 
     @Override
