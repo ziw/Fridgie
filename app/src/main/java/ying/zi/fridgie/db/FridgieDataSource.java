@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.model.Item;
 import ying.zi.fridgie.util.FridgieUtil;
@@ -60,8 +63,11 @@ public class FridgieDataSource {
             throw new IllegalArgumentException("Cannot add null record.");
         }
 
-        if( !containsItem(record.getItem().getName())){
-            insertItem(record.getItem());
+        if( !containsItem(record.getItemName())){
+            //insertItem(record.getItemName());
+            Item item = new Item();
+            item.setName(record.getItemName());
+            insertItem(item);
         }
 
         long rowId = db.insertOrThrow(FridgieContract.InventoryContract.TABLE_NAME,null,record.toContentValues());
@@ -95,6 +101,14 @@ public class FridgieDataSource {
         return null;
     }
 
+    public List<InventoryRecord> getAllRecords(){
+        List<InventoryRecord> l = new ArrayList<>();
+        Cursor c = db.query(FridgieContract.InventoryContract.TABLE_NAME, null, null,null,null,null,null,null);
+        while(c.moveToNext()){
+            l.add(new InventoryRecord(c));
+        }
+        return l;
+    }
 
 
     public void close(){
@@ -105,6 +119,10 @@ public class FridgieDataSource {
     Cursor execRawQuery(String sql, String[] args){
         db = helper.getWritableDatabase();
         return db.rawQuery(sql, args);
+    }
+
+    public void deleteAll(){
+
     }
 
 

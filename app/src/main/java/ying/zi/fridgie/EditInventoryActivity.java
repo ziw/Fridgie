@@ -1,9 +1,18 @@
 package ying.zi.fridgie;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import java.util.Date;
+
+import ying.zi.fridgie.db.FridgieDataSource;
+import ying.zi.fridgie.model.InventoryRecord;
+import ying.zi.fridgie.model.Item;
 
 public class EditInventoryActivity extends AppCompatActivity {
 
@@ -33,5 +42,21 @@ public class EditInventoryActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addItem(View view) {
+        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
+        InventoryRecord record = new InventoryRecord();
+        record.setItemName(itemName);
+        record.setStockDate(new Date());
+        record.setExpDate((new Date()));
+
+        FridgieDataSource ds = FridgieDataSource.getInstance(getApplicationContext());
+        ds.insertInventoryRecord(record);
+        ds.close();
+
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+
     }
 }

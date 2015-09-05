@@ -5,4 +5,4 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
     android:textColor="#001cff"
-    android:id="@+id/list_ite_textview" />
+    android:id="@+id/inv_list_item_text" />

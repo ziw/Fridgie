@@ -11,7 +11,7 @@ import ying.zi.fridgie.db.FridgieContract;
 public class InventoryRecord {
 
     private int id;
-    private Item item;
+    private String itemName;
     private Date stockDate;
     private Date expDate;
     private Status status;
@@ -26,12 +26,12 @@ public class InventoryRecord {
         this.id = id;
     }
 
-    public Item getItem() {
-        return item;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Date getStockDate() {
@@ -77,9 +77,11 @@ public class InventoryRecord {
 
     public ContentValues toContentValues(){
         ContentValues c = new ContentValues();
-        c.put(FridgieContract.InventoryContract.COL_ITEM_NAME, getItem().getName());
-        c.put(FridgieContract.InventoryContract.COL_EXP_DATE, getExpDate().getTime());
-        c.put(FridgieContract.InventoryContract.COL_STOCK_DATE, getStockDate().getTime());
+        c.put(FridgieContract.InventoryContract.COL_ITEM_NAME, getItemName());
+        if(getExpDate() != null)
+            c.put(FridgieContract.InventoryContract.COL_EXP_DATE, getExpDate().getTime());
+        if(getStockDate() != null)
+            c.put(FridgieContract.InventoryContract.COL_STOCK_DATE, getStockDate().getTime());
         c.put(FridgieContract.InventoryContract.COL_COUNT, getCount());
         c.put(FridgieContract.InventoryContract.COL_PHOTO,getPhoto());
         return c;
@@ -89,6 +91,21 @@ public class InventoryRecord {
 
     public InventoryRecord(Cursor c){
 
+        setItemName(c.getString(c.getColumnIndex(FridgieContract.InventoryContract.COL_ITEM_NAME)));
+        setExpDate(new Date(c.getLong(c.getColumnIndex(FridgieContract.InventoryContract.COL_EXP_DATE))));
+        setStockDate(new Date(c.getLong(c.getColumnIndex(FridgieContract.InventoryContract.COL_STOCK_DATE))));
+        setPhoto(c.getString(c.getColumnIndex(FridgieContract.InventoryContract.COL_PHOTO)));
+        setCount(c.getInt(c.getColumnIndex(FridgieContract.InventoryContract.COL_COUNT)));
+        setId(c.getInt(c.getColumnIndex(FridgieContract.InventoryContract._ID)));
+
+    }
+
+    @Override
+    public String toString() {
+        return "InventoryRecord{" +
+                "itemName=" + itemName +
+                ", expDate=" + expDate +
+                '}';
     }
 
     public enum Status{

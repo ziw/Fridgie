@@ -1,5 +1,6 @@
 package ying.zi.fridgie;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,21 +11,33 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import ying.zi.fridgie.controller.DataFetchTask;
+import ying.zi.fridgie.controller.InventoryAdapter;
+import ying.zi.fridgie.db.FridgieContract;
+import ying.zi.fridgie.db.FridgieDataSource;
+import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayAdapter<String> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FridgieUtil.intentLong(getApplicationContext(), "Hello World");
 
-        items = new ArrayAdapter<String>(getApplicationContext(),R.layout.list_item);
-        items.add("Test object");
-        ((ListView)findViewById(R.id.item_list)).setAdapter(items);
+        FridgieDataSource ds = FridgieDataSource.getInstance(getApplicationContext());
+
+        DataFetchTask task = new DataFetchTask(this);
+        //task.execute(DataFetchTask.Task.GET_ALL_RECORDS);
+
+        InventoryAdapter adapter = new InventoryAdapter(getApplicationContext(), ds.getAllRecords());
+
+        ((ListView) findViewById(R.id.item_list)).setAdapter(adapter);
     }
 
     @Override
@@ -50,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        TextView t = (TextView)findViewById(R.id.item_name_input_text);
-        items.add(t.getText().toString());
-
+        Intent it = new Intent(this, EditInventoryActivity.class);
+        startActivity(it);
     }
 }
