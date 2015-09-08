@@ -102,10 +102,10 @@ public class InventoryRecord {
 
     @Override
     public String toString() {
-        return "InventoryRecord{" +
-                "itemName=" + itemName +
-                ", expDate=" + expDate +
-                '}';
+        return "{ " +
+                "itemName= " + itemName +
+                ", expDate= " + expDate +
+                " } ";
     }
 
     public enum Status{

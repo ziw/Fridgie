@@ -92,8 +92,20 @@ public class FridgieDataSource {
     }
 
     public int updateInventoryRecord(InventoryRecord record){
-        int numRows = -1;
+        int numRows = db.update(FridgieContract.InventoryContract.TABLE_NAME,
+                                record.toContentValues(),
+                                FridgieContract.InventoryContract._ID + " = ?",
+                                new String[]{Integer.toString(record.getId())});
+
+
         return numRows;
+    }
+
+    public int deleteInventoryRecord(InventoryRecord record){
+        return db.delete(FridgieContract.InventoryContract.TABLE_NAME,
+                  FridgieContract.InventoryContract._ID + " = ?",
+                  new String[]{Integer.toString(record.getId())});
+
     }
 
     public Item getItemByName(String name){

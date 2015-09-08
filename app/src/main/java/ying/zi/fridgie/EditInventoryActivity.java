@@ -51,7 +51,7 @@ public class EditInventoryActivity extends AppCompatActivity {
         record.setStockDate(new Date());
         record.setExpDate((new Date()));
 
-        FridgieDataSource ds = FridgieDataSource.getInstance(getApplicationContext());
+        FridgieDataSource ds = FridgieDataSource.getInstance(this);
         ds.insertInventoryRecord(record);
         ds.close();
 

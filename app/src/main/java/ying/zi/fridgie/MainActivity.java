@@ -22,22 +22,22 @@ import ying.zi.fridgie.db.FridgieDataSource;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+            implements DataFetchTask.DataFetchingUIActivity, InventoryAdapter.InventoryAdapterActivity{
 
+    private InventoryAdapter adapter;
 
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FridgieDataSource ds = FridgieDataSource.getInstance(getApplicationContext());
-
-        DataFetchTask task = new DataFetchTask(this);
-        //task.execute(DataFetchTask.Task.GET_ALL_RECORDS);
-
-        InventoryAdapter adapter = new InventoryAdapter(getApplicationContext(), ds.getAllRecords());
-
+        adapter = new InventoryAdapter(this, new ArrayList<InventoryRecord>(), this);
         ((ListView) findViewById(R.id.item_list)).setAdapter(adapter);
+
+        DataFetchTask task = new DataFetchTask(this, this);
+        task.execute( new DataFetchTask.Task( DataFetchTask.Task.TaskType.GET_ALL_RECORDS, null));
+
     }
 
     @Override
@@ -65,5 +65,39 @@ public class MainActivity extends AppCompatActivity {
     public void addItem(View view) {
         Intent it = new Intent(this, EditInventoryActivity.class);
         startActivity(it);
+    }
+
+    @Override
+    public void handleDataFetchTaskResult(DataFetchTask.Task task, Object result) {
+        if(task == null){
+            //log error
+            return;
+        }
+        switch (task.getTaskType()){
+            case GET_ALL_RECORDS: updateRecordList((List<InventoryRecord>)result);
+            case DELETE_RECORD :  postDelete(task, result);
+        }
+
+    }
+
+    @Override
+    public void deleteInventoryRecord(InventoryRecord record) {
+        DataFetchTask task = new DataFetchTask(this, this);
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.DELETE_RECORD, record));
+    }
+
+    @Override
+    public void reduceInventoryRecord(InventoryRecord record) {
+
+    }
+
+    private void updateRecordList(List<InventoryRecord> records){
+        adapter.clear();
+        adapter.addAll(records);
+    }
+
+    private void postDelete(DataFetchTask.Task task, Object result){
+        InventoryRecord record = (InventoryRecord)task.getParam();//the record deleted
+        adapter.remove(record);
     }
 }
