@@ -2,6 +2,7 @@ package ying.zi.fridgie.util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,7 +27,8 @@ public class FridgieUtil {
         try{
             db.close();
         }
-        catch (Exception e){}
+        catch (Exception e){
+        }
     }
 
 }

@@ -14,11 +14,15 @@ import ying.zi.fridgie.R;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
 
+/**
+ * An adapter that populates the list view containing Inventory Record
+ */
 public class InventoryAdapter extends ArrayAdapter<InventoryRecord> {
 
     private List<InventoryRecord> records;
     private Context context;
     private InventoryAdapterActivity activity;
+
 
     public InventoryAdapter(Context context, List<InventoryRecord> records, InventoryAdapterActivity activity){
         super(context,0, records);
@@ -26,6 +30,7 @@ public class InventoryAdapter extends ArrayAdapter<InventoryRecord> {
         this.context = context;
         this.activity = activity;
     }
+
 
     public interface InventoryAdapterActivity{
 

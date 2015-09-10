@@ -4,6 +4,7 @@ package ying.zi.fridgie.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.Comparator;
 import java.util.Date;
 
 import ying.zi.fridgie.db.FridgieContract;
@@ -102,8 +103,8 @@ public class InventoryRecord {
 
     @Override
     public String toString() {
-        return "{ " +
-                "itemName= " + itemName +
+        return "{ " + getCount() + " " +
+                 itemName +
                 ", expDate= " + expDate +
                 " } ";
     }
@@ -112,4 +113,55 @@ public class InventoryRecord {
         GOOD,ALMOST,EXPIRED
     }
 
+    public static final Comparator<InventoryRecord> ALPHABETICAL_ORDER(){
+        return new Comparator<InventoryRecord>() {
+            @Override
+            public int compare(InventoryRecord lhs, InventoryRecord rhs) {
+                if (lhs == null && rhs == null){
+                    return 0;
+                }
+                else if(lhs == null){
+                    return -1;
+                }
+                else if(rhs == null){
+                    return 1;
+                }
+                else {
+                    String lName = lhs.getItemName();
+                    String rName = rhs.getItemName();
+                    if(lName == null && rName == null){
+                        return 0;
+                    }
+                    else if(lName == null){
+                        return  -1;
+                    }
+                    else if(rName == null){
+                        return 1;
+                    }
+                    return lName.compareTo(rName);
+                }
+
+            }
+        };
+    }
+
+    public static final Comparator<InventoryRecord> DAYS_LEFT_ORDER(){
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InventoryRecord record = (InventoryRecord) o;
+
+        return id == record.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

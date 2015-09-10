@@ -1,24 +1,19 @@
 package ying.zi.fridgie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import ying.zi.fridgie.controller.DataFetchTask;
+import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.controller.InventoryAdapter;
-import ying.zi.fridgie.db.FridgieContract;
-import ying.zi.fridgie.db.FridgieDataSource;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
 
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity
         adapter = new InventoryAdapter(this, new ArrayList<InventoryRecord>(), this);
         ((ListView) findViewById(R.id.item_list)).setAdapter(adapter);
 
-        DataFetchTask task = new DataFetchTask(this, this);
+        DataFetchTask task = new DataFetchTask(this);
         task.execute( new DataFetchTask.Task( DataFetchTask.Task.TaskType.GET_ALL_RECORDS, null));
 
     }
@@ -74,20 +69,33 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         switch (task.getTaskType()){
-            case GET_ALL_RECORDS: updateRecordList((List<InventoryRecord>)result);
-            case DELETE_RECORD :  postDelete(task, result);
+            case GET_ALL_RECORDS: updateRecordList((List<InventoryRecord>) result); break;
+            case DELETE_RECORD :  postDelete(task, result); break;
+            case REDUCE_RECORD :  postReduce(task, result); break;
         }
 
     }
 
     @Override
+    public void handleDataFetchTaskException(DataFetchTask.Task task, Throwable e) {
+
+    }
+
+    @Override
+    public Context getUIContext() {
+        return this;
+    }
+
+    @Override
     public void deleteInventoryRecord(InventoryRecord record) {
-        DataFetchTask task = new DataFetchTask(this, this);
+        DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.DELETE_RECORD, record));
     }
 
     @Override
     public void reduceInventoryRecord(InventoryRecord record) {
+        DataFetchTask task = new DataFetchTask(this);
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.REDUCE_RECORD, record));
 
     }
 
@@ -97,7 +105,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void postDelete(DataFetchTask.Task task, Object result){
+        //FridgieUtil.intentShort(getApplicationContext(),"Post delete");
         InventoryRecord record = (InventoryRecord)task.getParam();//the record deleted
         adapter.remove(record);
+    }
+
+    private void postReduce(DataFetchTask.Task task, Object result){
+        //FridgieUtil.intentShort(getApplicationContext(),"Post reduce");
+        InventoryRecord r = (InventoryRecord)task.getParam();
+        if(result == null){
+            //record removed
+            adapter.remove(r);
+        }
+        else{
+            adapter.getItem( adapter.getPosition(r) ).setCount(r.getCount());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

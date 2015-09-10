@@ -16,7 +16,7 @@ import ying.zi.fridgie.util.FridgieUtil;
 /**
  * End point for database operations
  */
-public class FridgieDataSource {
+class FridgieDataSource {
 
     private static final String LOG_TAG = FridgieDataSource.class.getSimpleName();
 
@@ -25,7 +25,7 @@ public class FridgieDataSource {
 
     private static FridgieDataSource dsInstance;
 
-    public static synchronized FridgieDataSource getInstance(Context context){
+    protected static synchronized FridgieDataSource getInstance(Context context){
         if( dsInstance == null || dsInstance.helper == null ){
             dsInstance = new FridgieDataSource(context);
         }

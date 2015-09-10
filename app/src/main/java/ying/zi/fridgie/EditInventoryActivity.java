@@ -1,5 +1,6 @@
 package ying.zi.fridgie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,12 +10,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.Random;
 
-import ying.zi.fridgie.db.FridgieDataSource;
+import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.model.InventoryRecord;
-import ying.zi.fridgie.model.Item;
 
-public class EditInventoryActivity extends AppCompatActivity {
+public class EditInventoryActivity extends AppCompatActivity
+                                   implements DataFetchTask.DataFetchingUIActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,32 @@ public class EditInventoryActivity extends AppCompatActivity {
         record.setItemName(itemName);
         record.setStockDate(new Date());
         record.setExpDate((new Date()));
+        record.setCount(  (new Random()).nextInt(6) );
 
-        FridgieDataSource ds = FridgieDataSource.getInstance(this);
-        ds.insertInventoryRecord(record);
-        ds.close();
+        DataFetchTask task = new DataFetchTask(this);
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
 
+    }
+
+    @Override
+    public Context getUIContext() {
+        return this;
+    }
+
+    @Override
+    public void handleDataFetchTaskResult(DataFetchTask.Task task, Object result) {
+        switch (task.getTaskType()){
+            case INSERT_RECORD : postInsert(); break;
+        }
+    }
+
+    @Override
+    public void handleDataFetchTaskException(DataFetchTask.Task task, Throwable e) {
+
+    }
+
+    private void postInsert(){
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
-
     }
 }
