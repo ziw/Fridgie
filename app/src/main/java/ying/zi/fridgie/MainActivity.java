@@ -1,5 +1,6 @@
 package ying.zi.fridgie;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import ying.zi.fridgie.controller.InventoryAdapter;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
             implements DataFetchTask.DataFetchingUIActivity, InventoryAdapter.InventoryAdapterActivity{
 
     private InventoryAdapter adapter;

@@ -8,32 +8,36 @@
     <!--<TextView android:text="@string/hello_world" android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/textView" />-->
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_name_input_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:width="300dp"
-        android:visibility="invisible"
-        />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_item"
-        android:layout_below="@+id/item_name_input_text"
-        android:onClick="addItem"
-        />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/add_item"-->
+        <!--android:onClick="addItem"-->
+        <!--android:layout_alignBottom="@+id/item_list"-->
+        <!--android:layout_alignParentEnd="true" />-->
+
+
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/item_list"
-        android:layout_below="@id/item_name_input_text"
-        android:layout_marginTop="25dp"
-        >
+        android:layout_marginTop="25dp" />
 
-    </ListView>
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_add_white"
+        android:background="@drawable/circle"
+        android:id="@+id/addButton"
+        android:layout_gravity="right|bottom"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="addItem" />
+
+
 
 </RelativeLayout>
