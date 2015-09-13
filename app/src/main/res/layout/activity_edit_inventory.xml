@@ -14,11 +14,38 @@
         android:id="@+id/edit_inv_item_name"
         android:hint="@string/item_name" />
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:orientation="horizontal">-->
+
+
+    <!--</LinearLayout>-->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_photo"
+        android:onClick="addPhoto"
+        />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_item"
         android:onClick="addItem"
+        />
+
+
+    <ImageView
+        android:layout_width="137dp"
+        android:layout_height="133dp"
+        android:id="@+id/edit_inv_image_view" />
+
+    <ImageView
+        android:layout_width="259dp"
+        android:layout_height="153dp"
+        android:id="@+id/edit_inv_test_image_view"
         />
 
 </LinearLayout>

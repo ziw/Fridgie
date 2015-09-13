@@ -1,14 +1,23 @@
 package ying.zi.fridgie;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.Random;
 
@@ -17,6 +26,9 @@ import ying.zi.fridgie.model.InventoryRecord;
 
 public class EditInventoryActivity extends AppCompatActivity
                                    implements DataFetchTask.DataFetchingUIActivity{
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +61,11 @@ public class EditInventoryActivity extends AppCompatActivity
     public void addItem(View view) {
         String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
         InventoryRecord record = new InventoryRecord();
-        record.setItemName(itemName);
+        record.setItemName(itemName.trim());
         record.setStockDate(new Date());
         record.setExpDate((new Date()));
-        record.setCount(  (new Random()).nextInt(6) );
+        record.setCount((new Random()).nextInt(6));
+
 
         DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
@@ -79,5 +92,23 @@ public class EditInventoryActivity extends AppCompatActivity
     private void postInsert(){
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
+    }
+
+    public void addPhoto(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(intent.resolveActivity(getPackageManager())!=null){
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE){
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ImageView img = (ImageView)findViewById(R.id.edit_inv_image_view);
+            img.setImageBitmap(imageBitmap);
+        }
     }
 }

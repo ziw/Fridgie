@@ -109,4 +109,11 @@ public class Item {
     public String toString() {
         return name;
     }
+
+    public String toFormattedName(){
+        if(name == null){
+            return null;
+        }
+        return name.replaceAll("\\s", "_").trim();
+    }
 }
