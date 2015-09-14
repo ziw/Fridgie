@@ -1,5 +1,6 @@
 package ying.zi.fridgie;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import java.util.Random;
 import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.model.InventoryRecord;
 
-public class EditInventoryActivity extends AppCompatActivity
+public class EditInventoryActivity extends Activity
                                    implements DataFetchTask.DataFetchingUIActivity{
 
     static final int REQUEST_IMAGE_CAPTURE = 1;

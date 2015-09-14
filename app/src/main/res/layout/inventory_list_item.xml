@@ -7,7 +7,8 @@
     <Button
         android:id="@+id/minus_button"
         android:layout_width="0dp"
-        android:layout_height="match_parent" android:layout_weight="0.15"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
         android:text=" - "/>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +21,10 @@
         android:textColor="#001cff" />
 
     <Button
-        android:id="@+id/delete_button" android:layout_width="0dp"
-        android:layout_height="match_parent" android:layout_weight="0.15" android:text=" X " />
+        android:id="@+id/delete_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        android:text=" X " />
 
 </LinearLayout>
