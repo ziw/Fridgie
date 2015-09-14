@@ -16,7 +16,7 @@ import java.util.Random;
 import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.model.InventoryRecord;
 
-public class EditInventoryActivity extends Activity
+public class EditInventoryActivity extends AppCompatActivity
                                    implements DataFetchTask.DataFetchingUIActivity{
 
     @Override
