@@ -3,4 +3,5 @@
     <color name="primary">#689F38</color>
     <color name="primary_dark">#33691E</color>
     <color name="app_bar_title">#ffffff</color>
+    <color name="accent_text">#679f41</color>
 </resources>
