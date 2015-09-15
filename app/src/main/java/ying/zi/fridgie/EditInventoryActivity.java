@@ -100,20 +100,6 @@ public class EditInventoryActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void addItem(View view) {
-        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
-        InventoryRecord record = new InventoryRecord();
-        record.setItemName(itemName.trim());
-        record.setStockDate(new Date());
-        record.setExpDate((new Date()));
-        record.setCount((new Random()).nextInt(6));
-
-
-        DataFetchTask task = new DataFetchTask(this);
-        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
-
-    }
-
     @Override
     public Context getUIContext() {
         return this;
@@ -152,7 +138,7 @@ public class EditInventoryActivity extends AppCompatActivity
         record.setItemName(itemName);
         record.setStockDate(new Date());
         record.setExpDate((new Date()));
-        record.setCount(  (new Random()).nextInt(6) );
+        record.setCount( quantityText.isEnabled() ? count : 0 );
 
         DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
@@ -188,20 +174,6 @@ public class EditInventoryActivity extends AppCompatActivity
         if(intent.resolveActivity(getPackageManager())!=null){
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
-    }
-
-
-    public void addItem(MenuItem item) {
-        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
-        InventoryRecord record = new InventoryRecord();
-        record.setItemName(itemName);
-        record.setStockDate(new Date());
-        record.setExpDate((new Date()));
-        record.setCount(  (new Random()).nextInt(6) );
-
-        DataFetchTask task = new DataFetchTask(this);
-        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
-
     }
 
     private void refreshUIForm(){
