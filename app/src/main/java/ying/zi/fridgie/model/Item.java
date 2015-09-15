@@ -114,6 +114,6 @@ public class Item {
         if(name == null){
             return null;
         }
-        return name.replaceAll("\\s", "_").trim();
+        return name.trim().replaceAll("\\s", "_");
     }
 }

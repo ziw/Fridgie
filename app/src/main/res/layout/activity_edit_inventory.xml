@@ -1,26 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ying.zi.fridgie.EditInventoryActivity"
     android:weightSum="1">
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_inv_item_name"
-        android:hint="@string/item_name" />
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:orientation="horizontal">-->
-
-
-    <!--</LinearLayout>-->
 
     <Button
         android:layout_width="wrap_content"
@@ -36,16 +19,166 @@
         android:onClick="addItem"
         />
 
+    <ScrollView
+        android:id="@+id/editInvScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="137dp"
-        android:layout_height="133dp"
-        android:id="@+id/edit_inv_image_view" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="259dp"
-        android:layout_height="153dp"
-        android:id="@+id/edit_inv_test_image_view"
-        />
+            <EditText
+                android:id="@+id/edit_inv_item_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:hint="@string/item_name"
+                android:imeOptions="actionDone"
+                android:textSize="34sp"/>
 
+            <LinearLayout
+                android:id="@+id/quantityExpiryContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="24dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/quantityContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="36dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/quantityLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/quantity"
+                        android:textColor="@color/accent_text"/>
+
+                    <EditText
+                        android:id="@+id/quantityInput"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/quantityLabel"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/quantityMinusBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/quantityInput"
+                        android:layout_marginBottom="4dp"
+                        android:layout_toRightOf="@id/quantityInput"
+                        android:background="@null"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_remove_dark"
+                        android:onClick="onMinusButtonClick"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/quantityAddBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/quantityInput"
+                        android:layout_marginBottom="4dp"
+                        android:layout_toRightOf="@id/quantityMinusBtn"
+                        android:background="@null"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_add_dark"
+                        android:onClick="onAddButtonClick"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/quantityNaBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/quantityInput"
+                        android:layout_marginBottom="4dp"
+                        android:layout_toRightOf="@id/quantityAddBtn"
+                        android:background="@null"
+                        android:padding="6dp"
+                        android:src="@drawable/na_gray"
+                        android:onClick="onNAButtonClick"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/expiryContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/expiryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/shelf_life_left"
+                    android:textColor="@color/accent_text"/>
+
+                <EditText
+                    android:id="@+id/shelfLifeInput"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/expiryLabel"
+                    android:gravity="center"
+                    android:inputType="number"
+                    />
+
+                <Spinner
+                    android:id="@+id/shelfLifeTypeSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/shelfLifeInput"
+                    android:layout_toRightOf="@id/shelfLifeInput"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/switchToDateBtn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shelfLifeInput"
+                    android:padding="4dp"
+                    android:text="@string/use_expiration_date"
+                    android:textColor="@color/accent_text"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/cameraButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#e9e9e9"
+                android:paddingBottom="100dp"
+                android:paddingTop="100dp"
+                android:src="@drawable/camera"
+                android:onClick="onCameraButtonClick"
+                />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

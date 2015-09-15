@@ -35,7 +35,7 @@ public class TestUtil {
 
     public static InventoryRecord createAppleRecord(){
         InventoryRecord r= new InventoryRecord();
-        r.setItemName(createApple());
+        r.setItemName(createApple().getName());
         r.setCount(3);
         r.setExpDate(createDateObj("30/08/2015"));
         r.setStockDate(createDateObj("20/08/2015"));

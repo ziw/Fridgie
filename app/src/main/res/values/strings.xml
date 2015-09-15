@@ -6,5 +6,12 @@
     <string name="add_item">Add Item</string>
     <string name="title_activity_edit_inventory">EditInventoryActivity</string>
     <string name="item_name">Item Name</string>
+<<<<<<< Updated upstream
     <string name="add_photo">Add Photo</string>
+=======
+>>>>>>> Stashed changes
+    <string name="save">Save</string>
+    <string name="quantity">Quantity</string>
+    <string name="shelf_life_left">Shelf life left</string>
+    <string name="use_expiration_date">Use expiry date</string>
 </resources>

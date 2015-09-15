@@ -1,40 +1,81 @@
 package ying.zi.fridgie;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.Random;
 
 import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.model.InventoryRecord;
+import ying.zi.fridgie.model.Item;
 
-public class EditInventoryActivity extends Activity
+public class EditInventoryActivity extends AppCompatActivity
                                    implements DataFetchTask.DataFetchingUIActivity{
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final String LOG_TAG = EditInventoryActivity.class.getSimpleName();
 
+    private Item item = null;
+
+    private String itemName = null;
+    private Date stockDate = null;
+    private Date expDate = null;
+    private Bitmap photo = null;
+    private int count = 1;
+
+
+    private EditText quantityText;
+    private ImageButton minusButton;
+    private ImageButton plusButton;
+    private ImageButton naButton;
+    private ImageButton cameraButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_inventory);
+        quantityText = (EditText) findViewById(R.id.quantityInput);
+        minusButton = (ImageButton) findViewById(R.id.quantityMinusBtn);
+        plusButton = (ImageButton) findViewById(R.id.quantityAddBtn);
+        naButton = (ImageButton)findViewById(R.id.quantityNaBtn);
+        cameraButton = (ImageButton)findViewById(R.id.cameraButton);
+        quantityText.setText(Integer.toString(1));
+
+        quantityText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s == null || s.toString().length() == 0) {
+                    count = 1;
+                    refreshUIForm();
+                } else {
+                    count = Integer.parseInt(s.toString());
+                }
+
+            }
+        });
     }
 
     @Override
@@ -95,21 +136,82 @@ public class EditInventoryActivity extends Activity
         startActivity(it);
     }
 
-    public void addPhoto(View view) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            photo = imageBitmap;
+            refreshUIForm();
+        }
+    }
+
+    public void saveInventoryRecord(MenuItem item) {
+        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
+        InventoryRecord record = new InventoryRecord();
+        record.setItemName(itemName);
+        record.setStockDate(new Date());
+        record.setExpDate((new Date()));
+        record.setCount(  (new Random()).nextInt(6) );
+
+        DataFetchTask task = new DataFetchTask(this);
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
+    }
+
+    public void onMinusButtonClick(View view) {
+        quantityText.setEnabled(true);
+        if(count > 1){
+            count--;
+        }
+        refreshUIForm();
+    }
+
+    public void onAddButtonClick(View view) {
+        quantityText.setEnabled(true);
+        if(count >= 1){
+            count++;
+        }
+        refreshUIForm();
+    }
+
+    public void onNAButtonClick(View view) {
+        quantityText.setEnabled(!quantityText.isEnabled());
+        refreshUIForm();
+    }
+
+    public void onCameraButtonClick(View view) {
+        launchCameraIntent();
+    }
+
+    private void launchCameraIntent(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager())!=null){
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+
+    public void addItem(MenuItem item) {
+        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
+        InventoryRecord record = new InventoryRecord();
+        record.setItemName(itemName);
+        record.setStockDate(new Date());
+        record.setExpDate((new Date()));
+        record.setCount(  (new Random()).nextInt(6) );
+
+        DataFetchTask task = new DataFetchTask(this);
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_IMAGE_CAPTURE){
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ImageView img = (ImageView)findViewById(R.id.edit_inv_image_view);
-            img.setImageBitmap(imageBitmap);
+    private void refreshUIForm(){
+        quantityText.setText(Integer.toString(count));
+        minusButton.setImageResource(quantityText.isEnabled() && count > 1 ? R.drawable.ic_remove_dark : R.drawable.ic_remove_gray);
+        plusButton.setImageResource(quantityText.isEnabled() ? R.drawable.ic_add_dark : R.drawable.ic_add_gray);
+        naButton.setImageResource(quantityText.isEnabled() ? R.drawable.na_gray : R.drawable.na_dark);
+        if(photo != null){
+            cameraButton.setImageBitmap(photo);
         }
     }
+
 }
