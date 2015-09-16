@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -41,7 +42,7 @@ public class EditInventoryActivity extends AppCompatActivity
     private ImageButton minusButton;
     private ImageButton plusButton;
     private ImageButton naButton;
-    private ImageButton cameraButton;
+    private ImageView cameraButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,10 @@ public class EditInventoryActivity extends AppCompatActivity
         minusButton = (ImageButton) findViewById(R.id.quantityMinusBtn);
         plusButton = (ImageButton) findViewById(R.id.quantityAddBtn);
         naButton = (ImageButton)findViewById(R.id.quantityNaBtn);
-        cameraButton = (ImageButton)findViewById(R.id.cameraButton);
+        cameraButton = (ImageView)findViewById(R.id.cameraView);
+
+
+
         quantityText.setText(Integer.toString(1));
 
         quantityText.addTextChangedListener(new TextWatcher() {
@@ -76,6 +80,22 @@ public class EditInventoryActivity extends AppCompatActivity
 
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -138,7 +158,7 @@ public class EditInventoryActivity extends AppCompatActivity
         record.setItemName(itemName);
         record.setStockDate(new Date());
         record.setExpDate((new Date()));
-        record.setCount( quantityText.isEnabled() ? count : 0 );
+        record.setCount(quantityText.isEnabled() ? count : 0);
 
         DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.INSERT_RECORD, record));

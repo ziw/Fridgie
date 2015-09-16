@@ -133,9 +133,5 @@ class FridgieDataSource {
         return db.rawQuery(sql, args);
     }
 
-    public void deleteAll(){
-
-    }
-
 
 }

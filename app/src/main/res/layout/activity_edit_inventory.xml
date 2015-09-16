@@ -153,17 +153,15 @@
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/cameraButton"
+            <ying.zi.fridgie.widget.SquareImageView
+                android:id="@+id/cameraView"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_gravity="center_horizontal"
                 android:background="#e9e9e9"
-                android:paddingBottom="100dp"
-                android:paddingTop="100dp"
                 android:src="@drawable/camera"
-                android:onClick="onCameraButtonClick"
-                />
+                android:onClick="onCameraButtonClick"/>
+
 
         </LinearLayout>
     </ScrollView>
