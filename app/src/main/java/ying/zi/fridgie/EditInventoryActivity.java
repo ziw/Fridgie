@@ -201,7 +201,7 @@ public class EditInventoryActivity extends AppCompatActivity
         minusButton.setImageResource(quantityText.isEnabled() && count > 1 ? R.drawable.ic_remove_dark : R.drawable.ic_remove_gray);
         plusButton.setImageResource(quantityText.isEnabled() ? R.drawable.ic_add_dark : R.drawable.ic_add_gray);
         naButton.setImageResource(quantityText.isEnabled() ? R.drawable.na_gray : R.drawable.na_dark);
-        if(photo != null){
+        if(photo != null) {
             cameraButton.setImageBitmap(photo);
         }
     }
