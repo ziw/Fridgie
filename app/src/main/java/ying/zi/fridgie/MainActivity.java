@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.controller.InventoryAdapter;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
+import ying.zi.fridgie.widget.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity
         implements DataFetchTask.DataFetchingUIActivity, InventoryAdapter.InventoryAdapterActivity{
@@ -34,10 +36,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         adapter = new InventoryAdapter(this, new ArrayList<InventoryRecord>(), this);
+
         recordsList = ((RecyclerView) findViewById(R.id.item_list));
-         layoutManager = new LinearLayoutManager(this);
-         recordsList.setLayoutManager(layoutManager);
-         recordsList.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this);
+        recordsList.setLayoutManager(layoutManager);
+        recordsList.setAdapter(adapter);
         DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.GET_ALL_RECORDS, null));
 
@@ -109,6 +112,8 @@ public class MainActivity extends AppCompatActivity
     private void updateRecordList(List<InventoryRecord> records){
         if(records != null){
             adapter = new InventoryAdapter(this, records, this);
+            ItemTouchHelper swipeHelper = new ItemTouchHelper(new ItemTouchHelperCallback(adapter));
+            swipeHelper.attachToRecyclerView(recordsList);
             recordsList.setAdapter(adapter);
         }
     }

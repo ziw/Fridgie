@@ -2,6 +2,7 @@ package ying.zi.fridgie.controller;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,13 @@ import java.util.List;
 import ying.zi.fridgie.R;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
+import ying.zi.fridgie.widget.ItemTouchHelperCallback;
 
 /**
  * An adapter that populates the list view containing Inventory Record
  */
-public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryRecordViewHolder> {
+public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryRecordViewHolder>
+                                implements ItemTouchHelperCallback.SwipableAdapter {
 
     private List<InventoryRecord> records;
     private Context context;
@@ -65,6 +68,19 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
     @Override
     public int getItemCount() {
         return records.size();
+    }
+
+    @Override
+    public void onItemSwipe(int position, int direction) {
+        FridgieUtil.intentShort(context, position + "/" + records.size());
+        if(direction == ItemTouchHelper.END){
+            InventoryRecord record = records.get(position);
+            activity.deleteInventoryRecord(record);
+        }
+        else if(direction == ItemTouchHelper.START){
+            InventoryRecord record = records.get(position);
+            activity.reduceInventoryRecord(record);
+        }
     }
 
 
