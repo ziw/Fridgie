@@ -6,7 +6,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,13 +14,13 @@ import java.util.List;
 import ying.zi.fridgie.R;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.util.FridgieUtil;
-import ying.zi.fridgie.widget.ItemTouchHelperCallback;
+import ying.zi.fridgie.widget.SwipeListener;
 
 /**
  * An adapter that populates the list view containing Inventory Record
  */
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryRecordViewHolder>
-                                implements ItemTouchHelperCallback.SwipableAdapter {
+                                implements SwipeListener.SwipableAdapter {
 
     private List<InventoryRecord> records;
     private Context context;

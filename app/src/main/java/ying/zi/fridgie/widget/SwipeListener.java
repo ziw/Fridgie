@@ -3,7 +3,7 @@ package ying.zi.fridgie.widget;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-public class ItemTouchHelperCallback  extends ItemTouchHelper.Callback {
+public class SwipeListener extends ItemTouchHelper.Callback {
 
     private SwipableAdapter adapter;
 
@@ -11,13 +11,13 @@ public class ItemTouchHelperCallback  extends ItemTouchHelper.Callback {
         void onItemSwipe(int position, int direction);
     }
 
-    public ItemTouchHelperCallback(SwipableAdapter adapter){
+    public SwipeListener(SwipableAdapter adapter){
         this.adapter = adapter;
     }
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(0, ItemTouchHelper.START| ItemTouchHelper.END);
+        return makeMovementFlags(0, ItemTouchHelper.START | ItemTouchHelper.END);
     }
 
     @Override
