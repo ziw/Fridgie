@@ -203,6 +203,7 @@ public class EditInventoryActivity extends AppCompatActivity
         naButton.setImageResource(quantityText.isEnabled() ? R.drawable.na_gray : R.drawable.na_dark);
         if(photo != null){
             cameraButton.setImageBitmap(photo);
+            cameraButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     }
 
