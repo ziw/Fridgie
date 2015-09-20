@@ -11,14 +11,18 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
+import ying.zi.fridgie.controller.AutoCompleteAdapter;
 import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.model.InventoryRecord;
 import ying.zi.fridgie.model.Item;
@@ -38,6 +42,7 @@ public class EditInventoryActivity extends AppCompatActivity
     private int count = 1;
 
 
+    private AutoCompleteTextView itemNameText;
     private EditText quantityText;
     private ImageButton minusButton;
     private ImageButton plusButton;
@@ -53,7 +58,18 @@ public class EditInventoryActivity extends AppCompatActivity
         plusButton = (ImageButton) findViewById(R.id.quantityAddBtn);
         naButton = (ImageButton)findViewById(R.id.quantityNaBtn);
         cameraButton = (ImageView)findViewById(R.id.cameraView);
+        itemNameText = (AutoCompleteTextView)findViewById(R.id.edit_inv_item_name);
 
+        /*Test auto complete values. TODO remove this*/
+        Item i1 = new Item();
+        i1.setName("abc");
+        Item i2 = new Item();
+        i2.setName("abcde");
+        Item i3 = new Item();
+        i3.setName("bcde");
+
+        itemNameText.setAdapter(new AutoCompleteAdapter(this, Arrays.asList(new Item[]{i1,i2,i3})));
+        /*Test auto complete values. TODO remove this*/
 
 
         quantityText.setText(Integer.toString(1));
@@ -153,7 +169,7 @@ public class EditInventoryActivity extends AppCompatActivity
     }
 
     public void saveInventoryRecord(MenuItem item) {
-        String itemName = ((TextView)findViewById(R.id.edit_inv_item_name)).getText().toString();
+        String itemName = itemNameText.getText().toString();
         InventoryRecord record = new InventoryRecord();
         record.setItemName(itemName);
         record.setStockDate(new Date());
