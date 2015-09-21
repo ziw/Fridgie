@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="256dp"
+    android:background="@color/primary"
+    android:elevation="4dp"
+    app:theme="@style/DarkActionBarTheme"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:contentInsetLeft="0dp"
+    android:contentInsetStart="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp">
+
+    <LinearLayout
+        android:id="@+id/inventoryToolbarContentContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="36dp"
+        android:orientation="vertical"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+        <!--TODO: make mysterious margin around this layout disappear-->
+
+        <ying.zi.fridgie.widget.SquareImageView
+            android:id="@+id/cameraView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/white_border"
+            android:src="@drawable/camera"
+            android:onClick="onCameraButtonClick"
+            android:scaleType="center"
+            />
+
+        <AutoCompleteTextView
+            android:id="@+id/edit_inv_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/item_name"
+            android:imeOptions="actionDone"
+            android:completionThreshold="1"
+            android:textSize="34sp"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+
+
+    </android.support.v7.widget.Toolbar>

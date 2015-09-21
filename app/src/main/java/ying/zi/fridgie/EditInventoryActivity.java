@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -29,6 +30,8 @@ import ying.zi.fridgie.model.Item;
 
 public class EditInventoryActivity extends AppCompatActivity
                                    implements DataFetchTask.DataFetchingUIActivity{
+
+    private Toolbar toolbar;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String LOG_TAG = EditInventoryActivity.class.getSimpleName();
@@ -59,6 +62,13 @@ public class EditInventoryActivity extends AppCompatActivity
         naButton = (ImageButton)findViewById(R.id.quantityNaBtn);
         cameraButton = (ImageView)findViewById(R.id.cameraView);
         itemNameText = (AutoCompleteTextView)findViewById(R.id.edit_inv_item_name);
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         /*Test auto complete values. TODO remove this*/
         Item i1 = new Item();

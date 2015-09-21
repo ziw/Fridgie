@@ -20,7 +20,8 @@
         <activity
             android:name=".EditInventoryActivity"
             android:label="@string/title_activity_edit_inventory"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/NoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ying.zi.fridgie.MainActivity" />
