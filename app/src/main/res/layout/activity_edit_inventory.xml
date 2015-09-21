@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edit_inv_item_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -24,6 +24,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:hint="@string/item_name"
                 android:imeOptions="actionDone"
+                android:completionThreshold="1"
                 android:textSize="34sp"/>
 
             <LinearLayout

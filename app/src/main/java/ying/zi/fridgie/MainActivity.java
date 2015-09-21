@@ -1,15 +1,15 @@
 package ying.zi.fridgie;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +17,14 @@ import java.util.List;
 import ying.zi.fridgie.db.DataFetchTask;
 import ying.zi.fridgie.controller.InventoryAdapter;
 import ying.zi.fridgie.model.InventoryRecord;
-import ying.zi.fridgie.util.FridgieUtil;
+import ying.zi.fridgie.widget.SwipeListener;
 
 public class MainActivity extends AppCompatActivity
         implements DataFetchTask.DataFetchingUIActivity, InventoryAdapter.InventoryAdapterActivity{
 
     private InventoryAdapter adapter;
+    private RecyclerView recordsList;
+    private RecyclerView.LayoutManager layoutManager;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         adapter = new InventoryAdapter(this, new ArrayList<InventoryRecord>(), this);
-        ((ListView) findViewById(R.id.item_list)).setAdapter(adapter);
 
+        recordsList = ((RecyclerView) findViewById(R.id.item_list));
+        layoutManager = new LinearLayoutManager(this);
+        recordsList.setLayoutManager(layoutManager);
+        recordsList.setAdapter(adapter);
         DataFetchTask task = new DataFetchTask(this);
-        task.execute( new DataFetchTask.Task( DataFetchTask.Task.TaskType.GET_ALL_RECORDS, null));
+        task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.GET_ALL_RECORDS, null));
 
     }
 
@@ -98,30 +103,30 @@ public class MainActivity extends AppCompatActivity
     public void reduceInventoryRecord(InventoryRecord record) {
         DataFetchTask task = new DataFetchTask(this);
         task.execute(new DataFetchTask.Task(DataFetchTask.Task.TaskType.REDUCE_RECORD, record));
-
     }
 
     private void updateRecordList(List<InventoryRecord> records){
-        adapter.clear();
-        adapter.addAll(records);
+        if(records != null){
+            adapter = new InventoryAdapter(this, records, this);
+            ItemTouchHelper swipeHelper = new ItemTouchHelper(new SwipeListener(adapter));
+            swipeHelper.attachToRecyclerView(recordsList);
+            recordsList.setAdapter(adapter);
+        }
     }
 
     private void postDelete(DataFetchTask.Task task, Object result){
-        //FridgieUtil.intentShort(getApplicationContext(),"Post delete");
         InventoryRecord record = (InventoryRecord)task.getParam();//the record deleted
         adapter.remove(record);
     }
 
     private void postReduce(DataFetchTask.Task task, Object result){
-        //FridgieUtil.intentShort(getApplicationContext(),"Post reduce");
-        InventoryRecord r = (InventoryRecord)task.getParam();
+        InventoryRecord oldRecord = (InventoryRecord)task.getParam();
         if(result == null){
-            //record removed
-            adapter.remove(r);
+            adapter.remove(oldRecord);
         }
         else{
-            adapter.getItem( adapter.getPosition(r) ).setCount(r.getCount());
-            adapter.notifyDataSetChanged();
+            InventoryRecord newRecord = (InventoryRecord)result;
+            adapter.update(oldRecord, newRecord);
         }
     }
 }
